@@ -5,8 +5,9 @@ export const drawHexagon = (
   size: number
 ) => {
   ctx.beginPath();
+
   for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI / 3) * i;
+    const angle = (Math.PI / 3) * i - Math.PI / 6;
     const xPos = x + size * Math.cos(angle);
     const yPos = y + size * Math.sin(angle);
     if (i === 0) {

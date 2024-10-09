@@ -2,19 +2,20 @@ import { useRef, useEffect } from "react";
 import { Camera } from "./Camera";
 import { drawHexagon } from "~/utils/hexagonUtils";
 const drawGrid = (ctx: CanvasRenderingContext2D) => {
-  const hexSize = 30;
+  const hexSize = 60;
   const horizontalSpacing = hexSize * Math.sqrt(3);
   const verticalSpacing = hexSize * 1.5;
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.1)"; // Faint white color
-  for (let row = 0; row < 20; row++) {
-    for (let col = 0; col < 20; col++) {
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "oklch(96.48% 0.0171875 90)";
+  for (let row = 0; row < 30; row++) {
+    for (let col = 0; col < 30; col++) {
       const x = col * horizontalSpacing + (row % 2) * (horizontalSpacing / 2);
       const y = row * verticalSpacing;
       drawHexagon(ctx, x, y, hexSize);
     }
   }
 };
-const Canvas = () => {
+const Canvas = ({ width, height }: { width: number; height: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cameraRef = useRef(new Camera());
 
@@ -64,7 +65,7 @@ const Canvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} width={800} height={600} />;
+  return <canvas ref={canvasRef} width={width} height={height} />;
 };
 
 export default Canvas;

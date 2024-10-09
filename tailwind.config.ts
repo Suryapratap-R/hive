@@ -1,8 +1,10 @@
 import type { Config } from "tailwindcss";
+import harmonyPalette from "@evilmartians/harmony/tailwind";
 
 export default {
   content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    colors: harmonyPalette,
     extend: {
       fontFamily: {
         sans: [
@@ -20,3 +22,5 @@ export default {
   },
   plugins: [],
 } satisfies Config;
+
+
