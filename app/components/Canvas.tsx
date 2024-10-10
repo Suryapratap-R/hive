@@ -1,6 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Camera } from "./Camera";
 import { drawHexagon } from "~/utils/hexagonUtils";
+import { Tile } from "./Tile";
+import TileControls from "./TileControls";
+
 const drawGrid = (ctx: CanvasRenderingContext2D) => {
   const hexSize = 60;
   const horizontalSpacing = hexSize * Math.sqrt(3);
@@ -15,9 +18,28 @@ const drawGrid = (ctx: CanvasRenderingContext2D) => {
     }
   }
 };
+
 const Canvas = ({ width, height }: { width: number; height: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cameraRef = useRef(new Camera());
+
+  const [tiles, setTiles] = useState<Tile[]>([]);
+  const [selectedColor, setSelectedColor] = useState<string>("yellow");
+
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x =
+      (e.clientX - rect.left) / cameraRef.current.zoom + cameraRef.current.x;
+    const y =
+      (e.clientY - rect.top) / cameraRef.current.zoom + cameraRef.current.y;
+    setTiles([...tiles, new Tile(x, y, selectedColor)]);
+  };
+
+  const handleAddTile = (color: string) => {
+    setSelectedColor(color);
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -53,6 +75,8 @@ const Canvas = ({ width, height }: { width: number; height: number }) => {
 
       drawGrid(ctx);
 
+      tiles.forEach((tile) => tile.draw(ctx, 60));
+
       ctx.restore();
       requestAnimationFrame(render);
     };
@@ -63,9 +87,19 @@ const Canvas = ({ width, height }: { width: number; height: number }) => {
       canvas.removeEventListener("wheel", handleWheel);
       canvas.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [tiles]);
 
-  return <canvas ref={canvasRef} width={width} height={height} />;
+  return (
+    <div>
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        onClick={handleCanvasClick}
+      />
+      <TileControls onAddTile={handleAddTile} />
+    </div>
+  );
 };
 
 export default Canvas;

@@ -7,7 +7,8 @@ export class Camera {
     this.y += dy;
   }
   zoomAt(x: number, y: number, factor: number) {
-    const scale = this.zoom * factor;
+    const minZoom = 0.3;
+    const scale = Math.max(this.zoom * factor, minZoom);
     this.x = x - (x - this.x) * (scale / this.zoom);
     this.y = y - (y - this.y) * (scale / this.zoom);
     this.zoom = scale;

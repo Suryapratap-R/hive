@@ -1,5 +1,8 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useState } from "react";
 import Canvas from "~/components/Canvas";
+import { Tile } from "~/components/Tile";
+import TileControls from "~/components/TileControls";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,7 +14,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   return (
     <div className="flex h-screen items-center justify-center">
-      <Canvas width={window.innerWidth} height={window.innerHeight}/>
+      <Canvas width={800} height={600} />
     </div>
   );
 }
