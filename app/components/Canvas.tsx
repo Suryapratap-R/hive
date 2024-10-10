@@ -1,23 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import { Camera } from "./Camera";
-import { drawHexagon } from "~/utils/hexagonUtils";
-import { Tile } from "./Tile";
+import { Tile } from "../types/Tile";
 import TileControls from "./TileControls";
+import { drawGrid } from "~/utils/renderUtils/drawHexGrid";
 
-const drawGrid = (ctx: CanvasRenderingContext2D) => {
-  const hexSize = 60;
-  const horizontalSpacing = hexSize * Math.sqrt(3);
-  const verticalSpacing = hexSize * 1.5;
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = "oklch(96.48% 0.0171875 90)";
-  for (let row = 0; row < 30; row++) {
-    for (let col = 0; col < 30; col++) {
-      const x = col * horizontalSpacing + (row % 2) * (horizontalSpacing / 2);
-      const y = row * verticalSpacing;
-      drawHexagon(ctx, x, y, hexSize);
-    }
-  }
-};
 
 const Canvas = ({ width, height }: { width: number; height: number }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
