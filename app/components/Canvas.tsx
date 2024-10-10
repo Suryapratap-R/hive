@@ -61,7 +61,7 @@ const Canvas = ({ width, height }: { width: number; height: number }) => {
 
       drawGrid(ctx);
 
-      tiles.forEach((tile) => tile.draw(ctx, 60));
+      tiles.forEach((tile) => tile.draw(ctx, 30));
 
       ctx.restore();
       requestAnimationFrame(render);
